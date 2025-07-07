@@ -2,17 +2,23 @@
   "name": "puppeteer-s3-scraper",
   "version": "1.0.0",
 
-  "trustedDependencies": ["puppeteer"],
+  "trustedDependencies": ["puppeteer"],          // lets Bun run our script
 
-  "description": "",
+  "description": "Tour de France stage scraper → S3",
   "main": "scraper.js",
+
   "scripts": {
+    // ⬇️  This runs for BOTH Bun and npm and downloads Chromium
+    "postinstall": "npx @puppeteer/browsers install chrome@stable",
+
     "start": "node scraper.js"
   },
+
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.832.0",
     "dotenv": "^16.5.0",
-    "puppeteer": "^24.10.2"
+    "puppeteer": "^24.10.2",
+    "@puppeteer/browsers": "^2.10.5"
   }
 }
