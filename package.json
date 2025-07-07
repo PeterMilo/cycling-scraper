@@ -2,7 +2,7 @@
   "name": "puppeteer-s3-scraper",
   "version": "1.0.0",
   "description": "",
-  "main": "scraper.js", 
+  "main": "scraper.js",
   "scripts": {
     "start": "node scraper.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +14,8 @@
     "@aws-sdk/client-s3": "^3.832.0",
     "dotenv": "^16.5.0",
     "puppeteer": "^24.10.2"
+  },
+  "puppeteer": {
+    "default_browser_revision": "137.0.7151.119"
   }
 }
