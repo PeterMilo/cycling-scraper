@@ -2,13 +2,13 @@
   "name": "puppeteer-s3-scraper",
   "version": "1.0.0",
 
-  "trustedDependencies": ["puppeteer"],          // lets Bun run our script
+  "trustedDependencies": ["puppeteer"],         
 
   "description": "Tour de France stage scraper → S3",
   "main": "scraper.js",
 
   "scripts": {
-    // ⬇️  This runs for BOTH Bun and npm and downloads Chromium
+
     "postinstall": "npx @puppeteer/browsers install chrome@stable",
 
     "start": "node scraper.js"
