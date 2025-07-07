@@ -1,4 +1,4 @@
-require('dotenv').config(); // Load from .env locally
+require('dotenv').config(); // Load from .env
 const puppeteer = require('puppeteer');
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 
@@ -16,8 +16,7 @@ const stageMap = {
 async function scrapeStageData(stageNumber) {
   const browser = await puppeteer.launch({
     headless: 'new',
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, // Needed for Render
-    args: ['--no-sandbox', '--disable-setuid-sandbox']     // Required for headless environments like Render
+    executablePath: puppeteer.executablePath() // ✅ ensures Render finds Chromium
   });
 
   const page = await browser.newPage();
@@ -84,7 +83,7 @@ async function uploadToS3(data, stageNumber) {
 // 🚀 Main
 (async () => {
   const today = new Date();
-  const todayStr = today.toISOString().split('T')[0]; // e.g., "2025-07-14"
+  const todayStr = today.toISOString().split('T')[0];
   const stageNumber = stageMap[todayStr];
 
   if (!stageNumber) {
