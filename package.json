@@ -2,23 +2,21 @@
   "name": "puppeteer-s3-scraper",
   "version": "1.0.0",
 
-  "trustedDependencies": ["puppeteer"],         
+  "trustedDependencies": ["puppeteer"],
 
   "description": "Tour de France stage scraper → S3",
   "main": "scraper.js",
 
   "scripts": {
-
-    "postinstall": "npx @puppeteer/browsers install chrome@stable",
-
+    "postinstall": "npx @puppeteer/browsers install chrome@stable --path=$(node -e \"console.log(require('puppeteer').defaultCacheDir)\")",
     "start": "node scraper.js"
   },
 
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.832.0",
+    "@puppeteer/browsers": "^2.10.5",
     "dotenv": "^16.5.0",
-    "puppeteer": "^24.10.2",
-    "@puppeteer/browsers": "^2.10.5"
+    "puppeteer": "^24.10.2"
   }
 }
