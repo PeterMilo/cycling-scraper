@@ -7,8 +7,8 @@
 "main": "scraper.js",
 
 "scripts": {
-    "postinstall": "npx @puppeteer/browsers install chrome@137.0.7151.119 --path=$HOME/.cache/puppeteer",
-    "start": "node scraper.js"
+ "postinstall": "npx @puppeteer/browsers install chrome@137.0.7151.119 --path=$(node -e \"const os=require('os');console.log(os.homedir() + '/.cache/puppeteer')\")",
+  "start": "node scraper.js"
 },
 
 "license": "ISC",
