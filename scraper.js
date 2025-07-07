@@ -12,11 +12,19 @@ const stageMap = {
   '2025-07-27': 21
 };
 
-// 🕷 Scrape the current stage data
+
+/* 🕷️ Scrape one stage on ProCyclingStats */
+
 async function scrapeStageData(stageNumber) {
+
   const browser = await puppeteer.launch({
-    headless: 'new',
-    executablePath: puppeteer.executablePath() // ✅ ensures Render finds Chromium
+
+    headless: 'new',                              // modern headless mode
+
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+
+    executablePath: puppeteer.executablePath()    // works locally *and* on Render
+
   });
 
   const page = await browser.newPage();
