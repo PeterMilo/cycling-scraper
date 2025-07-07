@@ -1,4 +1,4 @@
-require('dotenv').config(); // Load from .env
+require('dotenv').config(); // Load from .env locally
 const puppeteer = require('puppeteer');
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 
@@ -14,7 +14,12 @@ const stageMap = {
 
 // 🕷 Scrape the current stage data
 async function scrapeStageData(stageNumber) {
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, // Needed for Render
+    args: ['--no-sandbox', '--disable-setuid-sandbox']     // Required for headless environments like Render
+  });
+
   const page = await browser.newPage();
 
   const stageUrl = `https://www.procyclingstats.com/race/tour-de-france/2025/stage-${stageNumber}/live`;
