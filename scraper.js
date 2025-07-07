@@ -17,11 +17,12 @@ const stageMap = {
 
 async function scrapeStageData(stageNumber) {
 
-  const browser = await puppeteer.launch({
-    headless: 'new',                              // modern headless mode
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    executablePath: puppeteer.executablePath()    // works locally *and* on Render
-  });
+const browser = await puppeteer.launch({
+  headless: 'new',
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+  // no executablePath here – Puppeteer will look
+  // in $HOME/.cache/puppeteer automatically
+});
 
   const page = await browser.newPage();
 
