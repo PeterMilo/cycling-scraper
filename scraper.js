@@ -12,18 +12,18 @@ const stageMap = {
   '2025-07-27': 21
 };
 
-
-/* 🕷️ Scrape one stage on ProCyclingStats */
-
+// 🕷 Scrape the current stage data
 async function scrapeStageData(stageNumber) {
 
-const browser = await puppeteer.launch({
+  const browser = await puppeteer.launch({
   headless: 'new',
-  args: ['--no-sandbox', '--disable-setuid-sandbox']
-  // no executablePath here – Puppeteer will look
-  // in $HOME/.cache/puppeteer automatically
+  args: [
+    '--no-sandbox',                // outer container already isolates you
+    '--disable-setuid-sandbox',    // helper binary isn’t present
+    '--disable-dev-shm-usage'      // ← extra flag for low /dev/shm memory
+  ]
 });
-
+  
   const page = await browser.newPage();
 
   const stageUrl = `https://www.procyclingstats.com/race/tour-de-france/2025/stage-${stageNumber}/live`;
@@ -88,7 +88,7 @@ async function uploadToS3(data, stageNumber) {
 // 🚀 Main
 (async () => {
   const today = new Date();
-  const todayStr = today.toISOString().split('T')[0];
+  const todayStr = today.toISOString().split('T')[0]; // e.g., "2025-07-14"
   const stageNumber = stageMap[todayStr];
 
   if (!stageNumber) {
