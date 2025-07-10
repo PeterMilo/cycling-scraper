@@ -2,8 +2,8 @@ name: scrape-stage
 
 on:
   schedule:
-    # every 5 min, 11:00–16:55 UTC  ➜  13:00–18:55 CEST in July
-    - cron: '*/5 11-16 * * *'
+    # every 5 min
+    - cron: '*/5 * * * *'
   workflow_dispatch:    # manual “Run workflow” button
 
 jobs:
