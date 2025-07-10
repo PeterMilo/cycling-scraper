@@ -5,7 +5,7 @@
   "main": "scraper.js",
 
   "scripts": {
-    "postinstall": "npx @puppeteer/browsers install chrome@stable --path=$(node -e \"console.log(require('puppeteer').defaultCacheDir)\")",
+    "postinstall": "npx @puppeteer/browsers install chrome@stable --path=/opt/render/.cache/puppeteer",
     "start": "node scraper.js"
   },
 
