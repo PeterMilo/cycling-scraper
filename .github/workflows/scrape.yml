@@ -3,7 +3,7 @@ name: scrape
 on:
   schedule:
     # every 5 min
-    - cron: '*/5 * * * *'
+    - cron: '*/5 10-18 * * *'
   workflow_dispatch:    # manual “Run workflow” button
 
 jobs:
