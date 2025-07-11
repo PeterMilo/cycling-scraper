@@ -62,28 +62,40 @@ async function scrapeStageData(stageNumber) {
 
 // ☁️ Upload to AWS S3
 async function uploadToS3(data, stageNumber) {
-  const region = process.env.AWS_REGION;
-  const bucketName = process.env.S3_BUCKET_NAME;
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const region      = process.env.AWS_REGION;
+  const bucketName  = process.env.S3_BUCKET_NAME;
+  const timestamp   = new Date().toISOString().replace(/[:.]/g, '-');
 
   const s3 = new S3Client({
     region,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      accessKeyId:     process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     }
   });
 
-  const command = new PutObjectCommand({
+  // 1️⃣  Store the timestamped object (keeps full history)
+  await s3.send(new PutObjectCommand({
     Bucket: bucketName,
-    Key: `stage-${stageNumber}/${timestamp}.json`,
-    Body: JSON.stringify(data, null, 2),
+    Key:    `stage-${stageNumber}/${timestamp}.json`,
+    Body:   JSON.stringify(data, null, 2),
     ContentType: 'application/json'
-  });
+  }));
 
-  await s3.send(command);
-  console.log(`✅ Uploaded to S3: https://${bucketName}.s3.${region}.amazonaws.com/stage-${stageNumber}/${timestamp}.json`);
+  // 2️⃣  Over-write /stage-N/latest.json with the same payload
+  await s3.send(new PutObjectCommand({
+    Bucket: bucketName,
+    Key:    `stage-${stageNumber}/latest.json`,
+    Body:   JSON.stringify(data, null, 2),
+    ContentType: 'application/json'
+  }));
+
+  console.log(
+    `✅ Uploaded   → https://${bucketName}.s3.${region}.amazonaws.com/stage-${stageNumber}/${timestamp}.json\n` +
+    `✅ Latest now → https://${bucketName}.s3.${region}.amazonaws.com/stage-${stageNumber}/latest.json`
+  );
 }
+
 
 // 🚀 Main
 (async () => {
